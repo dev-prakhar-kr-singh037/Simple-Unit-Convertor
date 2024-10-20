@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        #converter-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label, input, select {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unit Converter</h1>
+    <div id="converter-container">
+        <label for="input-value">Enter value:</label>
+        <input type="number" id="input-value" placeholder="Enter a number">
+        
+        <label for="from-unit">From:</label>
+        <select id="from-unit">
+            <option value="m">Meters</option>
+            <option value="ft">Feet</option>
+            <option value="in">Inches</option>
+            <option value="km">Kilometers</option>
+        </select>
+        
+        <label for="to-unit">To:</label>
+        <select id="to-unit">
+            <option value="m">Meters</option>
+            <option value="ft">Feet</option>
+            <option value="in">Inches</option>
+            <option value="km">Kilometers</option>
+        </select>
+        
+        <div id="result">Result: </div>
+    </div>
+
+    <script>
+        const conversionFactors = {
+            m: {
+                m: 1,
+                ft: 3.28084,
+                in: 39.3701,
+                km: 0.001
+            },
+            ft: {
+                m: 0.3048,
+                ft: 1,
+                in: 12,
+                km: 0.0003048
+            },
+            in: {
+                m: 0.0254,
+                ft: 0.0833333,
+                in: 1,
+                km: 0.0000254
+            },
+            km: {
+                m: 1000,
+                ft: 3280.84,
+                in: 39370.1,
+                km: 1
+            }
+        };
+
+        function convert() {
+            const inputValue = parseFloat(document.getElementById('input-value').value);
+            const fromUnit = document.getElementById('from-unit').value;
+            const toUnit = document.getElementById('to-unit').value;
+
+            if (isNaN(inputValue)) {
+                document.getElementById('result').textContent = 'Result: Please enter a valid number';
+                return;
+            }
+
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('result').textContent = `Result: ${result.toFixed(4)} ${toUnit}`;
+        }
+
+        document.getElementById('input-value').addEventListener('input', convert);
+        document.getElementById('from-unit').addEventListener('change', convert);
+        document.getElementById('to-unit').addEventListener('change', convert);
+    </script>
+</body>
+</html>
